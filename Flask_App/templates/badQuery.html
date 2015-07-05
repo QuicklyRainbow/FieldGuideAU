@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Field Guide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <style type="text/css">
+      .container {
+        max-width: 500px;
+        padding-top: 100px;
+      }
+    </style>
+  </head>
+  <header>
+  </header>
+  <body>
+    <div class="container">
+      <h2> Oops, that page doesn't exist </h2>
+
+      <img src="https://www.the-happy-dog-spot.com/images/contact-us-dog-holding-cell-phone.jpg">
+      <p> Feel free to try again by entering an address or place</p>
+
+      <!-- from https://flask-wtf.readthedocs.org/en/latest/quickstart.html#creating-forms -->
+      <form method="POST" action="/">
+        {{ form.hidden_tag() }}
+        {{ form.name(size=20) }}
+        <input type="submit" value="Go">
+      </form>
+
+
+    </div>
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  </body>
+  <footer>
+  </footer>
+</html>
