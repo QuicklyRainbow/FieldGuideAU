@@ -1,4 +1,4 @@
-__author__ = 'mitch'
+__author__ = 'mitch, eric'
 import logging
 import wikipedia
 import urllib3.contrib.pyopenssl
@@ -67,3 +67,20 @@ def process_names(name_list):
         output_dict[name_object.value[0]]['name'] = name_object.value[0]
 
     return output_dict
+
+def location_to_names(lat, lon, radius=1):
+    animals = {}
+    radius_limit = 1000
+    minimum_to_show = 5
+    if radius > radius_limit:
+        return animals
+    payload = requests.get("http://biocache.ala.org.au/ws/occurrences/" +
+            "search?lat={0}&lon={1}&radius={2}&facet=OFF".format(
+                lat, lon, radius))
+    for animal in payload.json()['occurrences']:
+        if 'vernacularName' in animal and 'scientificName' in animal:
+            animals[animal['vernacularName']] = animal['scientificName']
+    if len(animals) >= minimum_to_show:
+        return animals
+    else:
+        return location_to_names(lat, lon, radius*2)
