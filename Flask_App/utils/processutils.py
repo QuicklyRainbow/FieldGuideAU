@@ -68,10 +68,13 @@ def process_names(name_list):
             output_dict[name_object.value[0]]['image_url'] = flickr_pic(name_list[name_object.value[0]])[1]
             output_dict[name_object.value[0]]['name'] = name_object.value[0]
         except Exception as e:
-            output_dict.pop(name_object.value[0])
-            logging.warning("Couldn't retrive {0}, skipping. Error: {1}"
-                            .format(name_object.value[0], e))
-
+            if name_object.value is None:
+                logging.warning("Couldn't retrive some weird animal, skipping."
+                                " Error: {0}".format(e))
+            else:
+                output_dict.pop(name_object.value[0])
+                logging.warning("Couldn't retrive {0}, skipping. Error: {1}"
+                                .format(name_object.value[0], e))
     return output_dict
 
 def location_to_names(lat, lng, radius=1):
