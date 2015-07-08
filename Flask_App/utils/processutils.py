@@ -62,10 +62,15 @@ def process_names(name_list):
         threads.append(gevent.spawn(wiki_summary, name))
     gevent.joinall(threads)
     for name_object in threads:
-        output_dict[name_object.value[0]]['description'] = name_object.value[2]
-        output_dict[name_object.value[0]]['description_url'] = name_object.value[1]
-        output_dict[name_object.value[0]]['image_url'] = flickr_pic(name_list[name_object.value[0]])[1]
-        output_dict[name_object.value[0]]['name'] = name_object.value[0]
+        try:
+            output_dict[name_object.value[0]]['description'] = name_object.value[2]
+            output_dict[name_object.value[0]]['description_url'] = name_object.value[1]
+            output_dict[name_object.value[0]]['image_url'] = flickr_pic(name_list[name_object.value[0]])[1]
+            output_dict[name_object.value[0]]['name'] = name_object.value[0]
+        except Exception as e:
+            output_dict.pop(name_object.value[0])
+            logging.warning("Couldn't retrive {0}, skipping. Error: {1}"
+                            .format(name_object.value[0], e))
 
     return output_dict
 
@@ -73,7 +78,7 @@ def location_to_names(lat, lng, radius=1):
     animals = {}
     radius_limit = 1000
     minimum_to_show = 5
-    maximum_to_show = 8
+    maximum_to_show = 10
     if radius > radius_limit:
         return animals
     payload = requests.get("http://biocache.ala.org.au/ws/occurrences/search?"
