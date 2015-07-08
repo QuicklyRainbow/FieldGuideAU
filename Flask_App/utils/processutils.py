@@ -10,6 +10,7 @@ import gevent.monkey
 from pyteaser import Summarize
 from settings import FLICKR_API, FLICKR_API_SECRET, GOOGLEMAPS_API
 from collections import defaultdict
+import requests
 
 
 
@@ -68,19 +69,22 @@ def process_names(name_list):
 
     return output_dict
 
-def location_to_names(lat, lon, radius=1):
+def location_to_names(lat, lng, radius=1):
     animals = {}
     radius_limit = 1000
     minimum_to_show = 5
+    maximum_to_show = 8
     if radius > radius_limit:
         return animals
-    payload = requests.get("http://biocache.ala.org.au/ws/occurrences/" +
-            "search?lat={0}&lon={1}&radius={2}&facet=OFF".format(
-                lat, lon, radius))
+    payload = requests.get("http://biocache.ala.org.au/ws/occurrences/search?"
+                           "lat={0}&lon={1}&radius={2}&facet=OFF"
+                           .format(lat, lng, radius))
     for animal in payload.json()['occurrences']:
-        if 'vernacularName' in animal and 'scientificName' in animal:
+        if len(animals) >= maximum_to_show:
+            break
+        elif 'vernacularName' in animal and 'scientificName' in animal:
             animals[animal['vernacularName']] = animal['scientificName']
     if len(animals) >= minimum_to_show:
         return animals
     else:
-        return location_to_names(lat, lon, radius*2)
+        return location_to_names(lat, lng, radius*2)
