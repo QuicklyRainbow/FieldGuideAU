@@ -69,8 +69,7 @@ def process_names(name_list):
 
     return output_dict
 
-def location_to_names(lat, lng, radius=1):
-    animals = {}
+def location_to_names(lat, lng, radius=1, animals = {}):
     radius_limit = 1000
     minimum_to_show = 5
     maximum_to_show = 8
@@ -87,4 +86,4 @@ def location_to_names(lat, lng, radius=1):
     if len(animals) >= minimum_to_show:
         return animals
     else:
-        return location_to_names(lat, lng, radius*2)
+        return location_to_names(lat, lng, radius*2, animals)
