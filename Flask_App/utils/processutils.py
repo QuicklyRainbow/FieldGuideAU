@@ -79,7 +79,7 @@ def process_names(name_list):
 
 def location_to_names(lat, lng, radius=1, animals={}):
     radius_limit = 1000
-    minimum_to_show = 5
+    minimum_to_show = 8
     maximum_to_show = 12
     if radius > radius_limit:
         return animals
