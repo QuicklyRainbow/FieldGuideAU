@@ -20,6 +20,7 @@ def serve_request(uuid):
     try:
         req = req_service.get_by_uid(uuid)
         user_name = json.loads(req.person)
+        location = user_name['text'].replace('@FieldGuideAU ', '')
         user_name = '@' + user_name['user']['screen_name']
     except Exception as e:
         pass
@@ -27,5 +28,5 @@ def serve_request(uuid):
     if req is None:
         abort(404)
     else:
-        return render_template('request.html', user_request=req, user_name=user_name)
+        return render_template('request.html', user_request=req, user_name=user_name, location=location)
 

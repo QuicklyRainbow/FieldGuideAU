@@ -11,6 +11,7 @@ from pyteaser import Summarize
 from settings import FLICKR_API, FLICKR_API_SECRET, GOOGLEMAPS_API
 from collections import defaultdict
 import requests
+import random
 
 
 
@@ -77,10 +78,13 @@ def process_names(name_list):
                                 .format(name_object.value[0], e))
     return output_dict
 
-def location_to_names(lat, lng, radius=1, animals={}):
-    radius_limit = 1000
-    minimum_to_show = 8
-    maximum_to_show = 12
+def location_to_names(lat, lng, radius=1, animals=None):
+    if animals is None:
+        animals = {}
+
+    radius_limit = 16
+    minimum_to_show = 6
+    maximum_to_show = 8
     if radius > radius_limit:
         return animals
     payload = requests.get("http://biocache.ala.org.au/ws/occurrences/search?"
@@ -89,7 +93,7 @@ def location_to_names(lat, lng, radius=1, animals={}):
     for animal in payload.json()['occurrences']:
         if len(animals) >= maximum_to_show:
             break
-        elif 'vernacularName' in animal and 'scientificName' in animal:
+        if 'vernacularName' in animal and 'scientificName' in animal and random.randint(0, 1) is 1:
             animals[animal['vernacularName']] = animal['scientificName']
     if len(animals) >= minimum_to_show:
         return animals
