@@ -30,7 +30,7 @@ idna==2.0
 ipaddress==1.0.7
 itsdangerous==0.24
 jieba==0.37
-lxml==3.4.4
+lxml==4.6.5
 marshmallow==0.7.0
 ndg-httpsclient==0.4.0
 oauthlib==0.7.2
