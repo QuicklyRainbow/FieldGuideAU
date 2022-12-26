@@ -49,6 +49,6 @@ six==1.6.1
 tweepy==3.3.0
 twitter==1.17.0
 urllib3==1.10.4
-wheel==0.24.0
+wheel==0.38.1
 wikipedia==1.4.0
 wsgiref==0.1.2
